@@ -25,5 +25,9 @@ struct Product: Codable {
 	let name: String
 	let price: String
 	let image: String
+	
+	var url: URL? {
+		return URL(string: image)
+	}
 }
 

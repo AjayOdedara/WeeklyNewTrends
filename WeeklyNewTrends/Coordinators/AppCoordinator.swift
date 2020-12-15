@@ -41,10 +41,12 @@ class AppCoordinator: Coordinator {
 		return viewController
 	}
 	
-	private func createMain() -> (ProductListCoordinator, UIViewController) {
+	private func createMain() -> (ProductListCoordinator, UINavigationController) {
 		let mainCoordinator = ProductListCoordinator(weeklyTrendService: WeeklyTrendService())
 		let viewController = mainCoordinator.createMain()
-		return (mainCoordinator, viewController)
+		let navController = UINavigationController()
+		navController.viewControllers = [viewController]
+		return (mainCoordinator, navController)
 	}
 }
 

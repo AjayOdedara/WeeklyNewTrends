@@ -5,7 +5,8 @@
 //  Created by Ajay Odedra on 12/12/20.
 //
 
-import Foundation
+import UIKit
+
 class ProductListViewModel: ProductListViewModelProtocol {
 	
 	var title: String {
@@ -14,20 +15,6 @@ class ProductListViewModel: ProductListViewModelProtocol {
 		}
 		return "Weekly Trend"
 	}
-	
-	internal var data: WeeklyTrends? {
-		didSet {
-			viewDelegate?.productsDidChange(viewModel: self)
-		}
-	}
-	
-	var viewDelegate: ProductListViewModelViewDelegate?
-	private let weeklyTrendService: WeeklyTrendService
-	
-	init(withWeeklyTrendService weeklyTrendService: WeeklyTrendService) {
-		self.weeklyTrendService = weeklyTrendService
-	}
-	
 	var numberOfItems: Int {
 		if let items = data {
 			return items.productCount
@@ -35,11 +22,19 @@ class ProductListViewModel: ProductListViewModelProtocol {
 		return 0
 	}
 	
-	func itemAtIndex(_ index: Int) -> Product? {
-		if let items = data?.products, items.count > index {
-			return items[index]
+	internal var data: WeeklyTrends? {
+		didSet {
+			viewDelegate?.productsDidChange()
 		}
-		return nil
+	}
+	
+	var viewDelegate: ProductListViewModelViewDelegate?
+	private let weeklyTrendService: WeeklyTrendService
+	let itemsPerRow: Int = 2
+	let cellPadding: CGFloat = 15.0
+	
+	init(withWeeklyTrendService weeklyTrendService: WeeklyTrendService) {
+		self.weeklyTrendService = weeklyTrendService
 	}
 	
 	func getWeeklyTrendProducts() {
@@ -53,5 +48,16 @@ class ProductListViewModel: ProductListViewModelProtocol {
 		}
 	}
 	
+}
+
+// MARK: - TableView Helper Methods
+
+extension ProductListViewModel {
 	
+	func productCellViewModel(at indexPath: IndexPath) -> ProductCellViewModel? {
+		if let items = data?.products {
+			return ProductCellViewModel(withProduct: items[indexPath.row])
+		}
+		return nil
+	}
 }

@@ -14,24 +14,17 @@ protocol ProductListCoordinatorDelegate: class
 
 class ProductListCoordinator {
 	
-
 	weak var delegate: ProductListCoordinatorDelegate?
-	var listViewController: ProductsViewController?
 	let weeklyTrendService: WeeklyTrendService
-	
-	// MARK: - Initialization
 	
 	init(weeklyTrendService: WeeklyTrendService) {
 		self.weeklyTrendService = weeklyTrendService
 	}
 	
 	func createMain() -> UIViewController {
-		
 		let viewModel = ProductListViewModel(withWeeklyTrendService: weeklyTrendService)
-		viewModel.getWeeklyTrendProducts()
-		let productListViewController = ProductsViewController(viewModel: viewModel)
+		let productListViewController = ProductsViewController(productListViewModel: viewModel)
 		productListViewController.viewModel = viewModel
-		listViewController = productListViewController
 		return productListViewController
 	}
 }
