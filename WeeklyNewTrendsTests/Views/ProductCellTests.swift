@@ -12,5 +12,5 @@ class ProductCellTests: XCTestCase {
 	
 	func testInitWithCoderShouldBeNil() {
 		XCTAssertNil(ProductCell(coder: NSCoder()))
-	}	
+	}
 }

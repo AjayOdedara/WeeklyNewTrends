@@ -23,7 +23,6 @@ class AppCoordinator: Coordinator {
 		window.makeKeyAndVisible()
 		
 		navigation.navigationBar.tintColor = .black
-		navigation.navigationBar.barTintColor = .themeMain
 		let BarButtonItemAppearance = UIBarButtonItem.appearance()
 		BarButtonItemAppearance.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear], for: .normal)
 	}
