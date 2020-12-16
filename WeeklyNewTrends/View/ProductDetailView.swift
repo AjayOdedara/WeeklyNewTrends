@@ -45,9 +45,13 @@ class ProductDetailView: UIView {
 		return imageView
 	}()
 	
-	convenience init() {
-		self.init(frame: CGRect.zero)
-		setupConstraints()
+	init() {
+		super.init(frame: CGRect.zero)
+		self.setupConstraints()
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		return nil
 	}
 	
 	func setupConstraints() {

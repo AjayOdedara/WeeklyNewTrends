@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - WeeklyTrendsResponse
+
 struct WeeklyTrends: Codable {
 	let products: [Product]
 	let title: String
