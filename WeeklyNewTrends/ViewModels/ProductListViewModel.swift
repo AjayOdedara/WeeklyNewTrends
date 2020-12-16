@@ -24,11 +24,12 @@ class ProductListViewModel: ProductListViewModelProtocol {
 	
 	internal var data: WeeklyTrends? {
 		didSet {
-			viewDelegate?.productsDidChange()
+			viewDelegate?.productsDidLoad()
 		}
 	}
 	
-	var viewDelegate: ProductListViewModelViewDelegate?
+	var viewDelegate: ProductListViewModelDelegate?
+	var coordinatorDelegate: ProductListViewModelCoordinatorDelegate?
 	private let weeklyTrendService: WeeklyTrendService
 	let itemsPerRow: Int = 2
 	let cellPadding: CGFloat = 15.0
@@ -50,7 +51,7 @@ class ProductListViewModel: ProductListViewModelProtocol {
 	
 }
 
-// MARK: - TableView Helper Methods
+// MARK: - TableView Data Fetch
 
 extension ProductListViewModel {
 	
@@ -59,5 +60,14 @@ extension ProductListViewModel {
 			return ProductCellViewModel(withProduct: items[indexPath.row])
 		}
 		return nil
+	}
+	
+	func didSelectItemAtIndex(_ index: Int)
+	{
+		if let items = data?.products,
+		   let coordinatorDelegate = coordinatorDelegate,
+		   index < items.count {
+			coordinatorDelegate.productDidSelect(self, data: items[index])
+		}
 	}
 }

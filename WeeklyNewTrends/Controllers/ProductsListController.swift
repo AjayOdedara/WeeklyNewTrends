@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ProductsViewController: UIViewController {
+class ProductsListController: UIViewController {
 	
 	var viewModel: ProductListViewModel
 	
@@ -27,21 +27,8 @@ class ProductsViewController: UIViewController {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		/*
-		if let flowLayout = contentView.collectionView.collectionViewLayout as? UICollectionViewFlowLayout{
-		flowLayout.estimatedItemSize = CGSize(width: 150, height: 50)
-		}
-		
-		if let collectionFlowLayout = contentView.collectionView.collectionViewLayout as? UICollectionViewFlowLayout{
-		collectionFlowLayout.minimumLineSpacing = 10
-		collectionFlowLayout.minimumInteritemSpacing = 20
-		}
-		*/
 		
 		setupCollectionView()
 		viewModel.viewDelegate = self
@@ -73,12 +60,13 @@ class ProductsViewController: UIViewController {
 	
 }
 
-extension ProductsViewController: UICollectionViewDelegate {
+extension ProductsListController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		viewModel.didSelectItemAtIndex((indexPath as NSIndexPath).row)
 	}
 }
 
-extension ProductsViewController: UICollectionViewDataSource {
+extension ProductsListController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return viewModel.numberOfItems
@@ -93,16 +81,14 @@ extension ProductsViewController: UICollectionViewDataSource {
 	
 }
 
-extension ProductsViewController: UICollectionViewDelegateFlowLayout {
+extension ProductsListController: UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: (collectionView.frame.width / CGFloat(viewModel.itemsPerRow) - viewModel.cellPadding), height: collectionView.frame.height/2.5)
+		return CGSize(width: (collectionView.frame.width / CGFloat(viewModel.itemsPerRow) - (viewModel.cellPadding * 2)), height: collectionView.frame.height/2.5)
 	}
 }
 
-extension ProductsViewController: ProductListViewModelViewDelegate
-{
-	func productsDidChange() {
+extension ProductsListController: ProductListViewModelDelegate {
+	func productsDidLoad() {
 		refreshDisplay()
 	}
-	
 }

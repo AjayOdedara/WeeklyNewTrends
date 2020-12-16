@@ -11,42 +11,34 @@ import UIKit
 class AppCoordinator: Coordinator {
 	
 	var window: UIWindow
-	private var mainCoordinator: ProductListCoordinator?
+	var navigation: UINavigationController
 	
-	init(window: UIWindow)
+	init(window: UIWindow, navigation: UINavigationController)
 	{
+		self.navigation = navigation
 		self.window = window
-		
+		window.rootViewController = emptyState()
 		window.tintColor = .themeMain
 		window.backgroundColor = .themeMain
-		
-		window.rootViewController = emptyState()
 		window.makeKeyAndVisible()
+		
+		navigation.navigationBar.tintColor = .black
+		navigation.navigationBar.barTintColor = .themeMain
+		let BarButtonItemAppearance = UIBarButtonItem.appearance()
+		BarButtonItemAppearance.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.clear], for: .normal)
 	}
 	
 	func start()
 	{
-		DispatchQueue.main.async { [weak self] in
-			self?.goToMainApp()
-		}
+		let listCoordinator = ProductListCoordinator(navigation: navigation, weeklyTrendService: WeeklyTrendService())
+		listCoordinator.start()
+		window.rootViewController = listCoordinator.navigation
 	}
-	private func goToMainApp() {
-		let (mainCoordinator, rootViewController) = createMain()
-		self.mainCoordinator = mainCoordinator
-		window.rootViewController = rootViewController
-	}
+	
 	private func emptyState() -> UIViewController {
 		let viewController = UIViewController()
 		viewController.view.backgroundColor = .themeMain
 		return viewController
-	}
-	
-	private func createMain() -> (ProductListCoordinator, UINavigationController) {
-		let mainCoordinator = ProductListCoordinator(weeklyTrendService: WeeklyTrendService())
-		let viewController = mainCoordinator.createMain()
-		let navController = UINavigationController()
-		navController.viewControllers = [viewController]
-		return (mainCoordinator, navController)
 	}
 }
 

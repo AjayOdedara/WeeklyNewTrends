@@ -7,8 +7,12 @@
 
 import Foundation
 
-protocol ProductListViewModelViewDelegate: class {
-	func productsDidChange()
+protocol ProductListViewModelDelegate: class {
+	func productsDidLoad()
+}
+
+protocol ProductListViewModelCoordinatorDelegate: class {
+	func productDidSelect(_ viewModel: ProductListViewModel, data: Product)
 }
 
 protocol ProductListViewModelProtocol {
@@ -19,5 +23,5 @@ protocol ProductListViewModelProtocol {
 	func productCellViewModel(at indexPath: IndexPath) -> ProductCellViewModel?
 	func getWeeklyTrendProducts()
 	
-	var viewDelegate: ProductListViewModelViewDelegate? { get set }
+	var viewDelegate: ProductListViewModelDelegate? { get set }
 }

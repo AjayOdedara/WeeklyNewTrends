@@ -1,18 +1,20 @@
 //
-//  ProductView.swift
+//  ProductDetailView.swift
 //  WeeklyNewTrends
 //
-//  Created by Ajay Odedra on 13/12/20.
+//  Created by Ajay Odedra on 15/12/20.
 //
 
 import UIKit
+import SnapKit
 import SDWebImage
 
-class ProductView: UIView {
+class ProductDetailView: UIView {
 	
 	var name: UILabel = {
 		let label = UILabel()
 		label.font = UIFont.systemFont(ofSize: 15, weight: .light)
+		label.textAlignment = .center
 		label.textColor = .black
 		label.numberOfLines = 2
 		return label
@@ -21,6 +23,7 @@ class ProductView: UIView {
 	var color: UILabel = {
 		let label = UILabel()
 		label.font = UIFont.systemFont(ofSize: 15, weight: .light)
+		label.textAlignment = .center
 		label.textColor = .systemGray2
 		label.numberOfLines = 2
 		return label
@@ -29,6 +32,7 @@ class ProductView: UIView {
 	var price: UILabel = {
 		let label = UILabel()
 		label.font = UIFont.systemFont(ofSize: 15, weight: .light)
+		label.textAlignment = .center
 		label.textColor = .black
 		label.numberOfLines = 2
 		return label
@@ -38,16 +42,7 @@ class ProductView: UIView {
 		let imageView = UIImageView()
 		imageView.contentMode = .scaleAspectFit
 		imageView.clipsToBounds = true
-		imageView.backgroundColor = .clear
 		return imageView
-	}()
-	
-	var favoriteBtn: UIButton = {
-		let button = UIButton()
-		let image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
-		button.setImage(image, for: .normal)
-		button.tintColor = .systemGray2
-		return button
 	}()
 	
 	convenience init() {
@@ -57,47 +52,33 @@ class ProductView: UIView {
 	
 	func setupConstraints() {
 		
-		addSubview(image)
 		addSubview(name)
+		addSubview(image)
 		addSubview(color)
 		addSubview(price)
-		addSubview(favoriteBtn)
-		
-		image.snp.makeConstraints { make in
-			make.top.equalToSuperview()
-			make.leading.equalToSuperview()
-			make.trailing.equalToSuperview()
-			make.bottom.equalToSuperview().offset(-70)
-		}
 		
 		name.snp.makeConstraints { make in
-			make.top.equalTo(image.snp.bottom).offset(3)
-			make.leading.equalToSuperview()
-			make.trailing.equalToSuperview()
-			make.bottom.lessThanOrEqualToSuperview()
+			make.top.equalTo(safeAreaLayoutGuide.snp.topMargin)
+			make.leading.equalToSuperview().offset(40)
+			make.trailing.equalToSuperview().offset(-40)
 		}
 		
 		color.snp.makeConstraints { make in
-			make.top.equalTo(name.snp.bottom).offset(3)
-			make.leading.equalToSuperview()
-			make.trailing.equalToSuperview()
-			make.bottom.lessThanOrEqualToSuperview()
+			make.top.equalTo(name.snp.bottom).offset(5)
+			make.leading.equalTo(name.snp.leading)
+			make.trailing.equalTo(name.snp.trailing)
 		}
 		
 		price.snp.makeConstraints { make in
-			make.top.equalTo(color.snp.bottom).offset(3)
-			make.leading.equalToSuperview()
-			make.bottom.lessThanOrEqualToSuperview()
-			make.bottom.equalToSuperview()
+			make.top.equalTo(color.snp.bottom).offset(5)
+			make.leading.equalTo(color.snp.leading)
+			make.trailing.equalTo(color.snp.trailing)
 		}
-		
-		favoriteBtn.snp.makeConstraints { make in
-			make.top.equalTo(color.snp.bottom).offset(3)
-			make.leading.equalTo(price.snp.trailing).offset(2)
-			make.trailing.equalToSuperview()
+		image.snp.makeConstraints { make in
+			make.top.equalTo(price.snp.bottom).offset(20)
+			make.leading.equalToSuperview().offset(20)
+			make.trailing.equalToSuperview().offset(-20)
 			make.bottom.equalToSuperview()
-			make.width.lessThanOrEqualTo(20)
-			make.height.lessThanOrEqualTo(20)
 		}
 	}
 	
