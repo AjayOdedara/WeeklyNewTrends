@@ -1,6 +1,6 @@
 # Weekly New Trending Products
 
-iPhone app in Swift that presents one view controller containing a table view that shows a list of products. When an item of the list is selected, you should display a Detail Screen with the basic information of the Product (name, price and expanded image).
+iPhone app in Swift that presents one view controller containing a table view that shows a list of products. When an item of the list is selected, display a Detail Screen with the basic information of the Product (name, price and expanded image).
 
 <p align="center">
   <img width=35% src="https://github.com/AjayOdedara/WeeklyNewTrends/blob/main/Images/ProductList.PNG" />
